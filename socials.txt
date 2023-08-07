@@ -9,3 +9,7 @@ medium.com
 reddit.com
 pinterest.com
 tiktok.com
+vk.com
+mail.ru
+gitlab.com
+
