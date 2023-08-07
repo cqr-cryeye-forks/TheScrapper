@@ -110,7 +110,6 @@ if target_type == "URL":
 
         root_path = pathlib.Path(__file__).parent
         file_path = root_path.joinpath(outputFile)
-
         file_path.write_text(json.dumps(out))
 
 # I don't use this option because we don't have audits (broken implementation) for FILE with targets in Cryeye :(
