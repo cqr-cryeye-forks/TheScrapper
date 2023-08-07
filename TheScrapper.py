@@ -108,7 +108,7 @@ if target_type == "URL":
         }
 
         root_path = pathlib.Path(__file__).parent
-        file_path = root_path.joinpath('result.json')
+        file_path = root_path.joinpath(args.output)
         file_path.write_text(json.dumps(out))
 
         # file_name = args.output
