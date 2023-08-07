@@ -103,9 +103,9 @@ if target_type == "URL":
     if args.output:
         outputFile = args.output
         out = {
-            "E-Mails": email_list,
-            "SocialMedia": sm,
-            "Numbers": numbers_list
+            "emails": email_list,
+            "socialmedia": sm,
+            "numbers": numbers_list
         }
 
         root_path = pathlib.Path(__file__).parent
