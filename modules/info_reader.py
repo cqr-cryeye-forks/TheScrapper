@@ -5,13 +5,15 @@ import requests.exceptions
 from socid_extractor import parse, extract
 from typing import List
 
+from modules.paths import SOCIALS_TXT_PATH
+
 
 class InfoReader:
     """
     InfoReader Class
     """
 
-    def __init__(self, content: dict = None, social_path: str = "./socials.txt") -> None:
+    def __init__(self, content: dict = None, social_path: str = str(SOCIALS_TXT_PATH)) -> None:
         """Contructor
 
         Args:
