@@ -63,54 +63,68 @@ if target_type == "URL":
 
     print("*" * 50 + "\n" + f"Target: {args.url}" + "\n" + "*" * 50 + "\n")
 
-    requests.get(args.url)
+    url = args.url
+    out = []
 
-    url: str = args.url
-    verbPrint("Scraping (and crawling) started")
-    scrap = Scrapper(url=url, crawl=args.crawl)
-    verbPrint("Scraping (and crawling) done\nReading and sorting information")
-    IR = InfoReader(content=scrap.getText())
-    emails: list = IR.getEmails()
-    email_list = []
-    if emails:
-        email_list = [{"email": email} for email in emails]
+    try:
+        response = requests.get(url, timeout=15)
 
-    numbers = IR.getPhoneNumber()
-    numbers_list = []
-    if numbers:
-        numbers_list = [{"email": number} for number in numbers]
+        url: str = url
+        verbPrint("Scraping (and crawling) started")
+        scrap = Scrapper(url=url, crawl=args.crawl)
+        verbPrint("Scraping (and crawling) done\nReading and sorting information")
+        IR = InfoReader(content=scrap.getText())
+        emails: list = IR.getEmails()
+        email_list = []
+        if emails:
+            email_list = [{"email": email} for email in emails]
 
-    sm: list = IR.getSocials()
-    verbPrint("Reading and sorting information done")
+        numbers = IR.getPhoneNumber()
+        numbers_list = []
+        if numbers:
+            numbers_list = [{"email": number} for number in numbers]
 
-    print("\n")
-    print("E-Mails: " + "\n - ".join(emails))
-    print("Numbers:" + "\n - ".join(numbers))
-    if args.sm:
-        print("SocialMedia: ")
-        # sm_info = IR.getSocialsInfo()
-        # for x in sm_info:
-        #     url = x["url"]
-        #     info = x["info"]
-        #     if info:
-        #         print(f" - {url}:")
-        #         for y in info:
-        #             print(f"     - {y}: {info[y]}")
-        #     else:
-        #         print(f" - {url}")
-    else:
-        print(f"SocialMedia: {sm}")
-    if args.output:
-        outputFile = args.output
+        sm: list = IR.getSocials()
+        verbPrint("Reading and sorting information done")
+
+        print("\n")
+        print("E-Mails: " + "\n - ".join(emails))
+        print("Numbers:" + "\n - ".join(numbers))
+        if args.sm:
+            print("SocialMedia: ")
+            # sm_info = IR.getSocialsInfo()
+            # for x in sm_info:
+            #     url = x["url"]
+            #     info = x["info"]
+            #     if info:
+            #         print(f" - {url}:")
+            #         for y in info:
+            #             print(f"     - {y}: {info[y]}")
+            #     else:
+            #         print(f" - {url}")
+        else:
+            print(f"SocialMedia: {sm}")
+        if args.output:
+            out = {
+                "emails": email_list,
+                "socialmedia": sm,
+                "numbers": numbers_list
+            }
+
+    except requests.exceptions.RequestException as req_exc:
         out = {
-            "emails": email_list,
-            "socialmedia": sm,
-            "numbers": numbers_list
-        }
+                "emails": [],
+                "socialmedia": [],
+                "numbers": []
+            }
 
-        root_path = pathlib.Path(__file__).parent
-        file_path = root_path.joinpath(outputFile)
-        file_path.write_text(json.dumps(out))
+        print("Request exception:", req_exc)
+        url = ""
+
+    outputFile = args.output
+    root_path = pathlib.Path(__file__).parent
+    file_path = root_path.joinpath(outputFile)
+    file_path.write_text(json.dumps(out))
 
 # I don't use this option because we don't have audits (broken implementation) for FILE with targets in Cryeye :(
 # Implement in the bright good future
