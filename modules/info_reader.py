@@ -82,7 +82,7 @@ class InfoReader:
             list: [description]
         """
         sm_accounts: list = []
-        socials: object = open(self.social_path, "r+").readlines()
+        socials: object = open(SOCIALS_TXT_PATH, "r+").readlines()
 
         for url in self.content["urls"]:
             for s in socials:
