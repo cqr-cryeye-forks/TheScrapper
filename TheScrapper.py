@@ -101,7 +101,7 @@ if target_type == "URL":
     else:
         print(f"SocialMedia: {sm}")
     if args.output:
-        file_name = args.output
+        outputFile = args.output
         out = {
             "E-Mails": email_list,
             "SocialMedia": sm,
@@ -109,7 +109,8 @@ if target_type == "URL":
         }
 
         root_path = pathlib.Path(__file__).parent
-        file_path = root_path.joinpath(file_name)
+        file_path = root_path.joinpath(outputFile)
+
         file_path.write_text(json.dumps(out))
 
 # I don't use this option because we don't have audits (broken implementation) for FILE with targets in Cryeye :(
