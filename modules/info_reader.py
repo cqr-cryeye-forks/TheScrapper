@@ -87,16 +87,19 @@ class InfoReader:
                 if url is None:
                     continue
                 if s.replace("\n", "").lower() in url.lower():
-                    sm_accounts.append(url)
-        return list(dict.fromkeys(sm_accounts))
+                    sm_accounts.append({"social_media_account": url})
+        return sm_accounts
 
-    def getSocialsInfo(self) -> List[dict]:
-        urls = self.getSocials()
-        sm_info = []
-        for url in urls:
-            try:
-                text, _ = parse(url)
-                sm_info.append({"url": url, "info": extract(text)})
-            except Exception: #Quick fix for now
-                pass
-        return sm_info
+    # I don't use this function because Info it's just HTML Body of the URL.
+
+    # def getSocialsInfo(self) -> List[dict]:
+    #     urls = self.getSocials()
+    #
+    #     sm_info = []
+    #     for url in urls:
+    #         try:
+    #             text, _ = parse(url)
+    #             sm_info.append({"url": url, "info": extract(text)})
+    #         except Exception: #Quick fix for now
+    #             pass
+    #     return sm_info
